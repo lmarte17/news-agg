@@ -25,17 +25,15 @@
 <body>
     <div class="container">
         <h1 class="my-4">BLUF News - Latest news on Semiconductors</h1>
-        <div class="form-group">
-            <input type="text" id="filter" class="form-control" onkeyup="filterArticles()" placeholder="Filter articles...">
-            <ul id="articles" class="list-group">
-                {% for article in articles %}
-                    <li class="article list-group-item">
-                        <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
-                        <!-- <p>{{ article.summary }}</p> -->
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+        <input type="text" id="filter" class="form-control" onkeyup="filterArticles()" placeholder="Filter articles...">
+        <ul id="articles" class="list-group">
+            {% for article in articles %}
+                <li class="article list-group-item">
+                    <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+                    <!-- <p>{{ article.summary }}</p> -->
+                </li>
+            {% endfor %}
+        </ul>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
