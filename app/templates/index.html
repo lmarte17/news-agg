@@ -5,12 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Scraper</title>
+    <script>
+        function filterArticles() {
+            const filter = document.getElementById("filter").value.toLowerCase();
+            const articles = document.getElementsByClassName("article");
+
+            for (let i = 0; i < articles.length; i++) {
+                const title = articles[i].getElementsByTagName("a")[0].textContent.toLowerCase();
+                const summary = articles[i].getElementsByTagName("p")[0].textContent.toLowerCase();
+
+                if (title.includes(filter) || summary.includes(filter)) {
+                    articles[i].style.display = "";
+                } else {
+                    articles[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>News Articles</h1>
-    <ul>
+    <input type="text" id="filter" onkeyup="filterArticles()" placeholder="Filter articles..">
+    <ul id="articles">
         {% for article in articles %}
-            <li><a href="{{ article.url }}">{{ article.title }}</a></li>
+            <li class="article">
+                <a href="{{ article.url }}">{{ article.title }}</a>
+                <p>{{ article.summary }}</p>
+            </li>
         {% endfor %}
     </ul>
 </body>
