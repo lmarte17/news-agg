@@ -34,7 +34,7 @@
             {% for article in articles %}
                 <li class="article list-group-item">
                     <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
-                    <p>{{ article.summary }}</p>
+                    {% comment %} <p>{{ article.summary }}</p> {% endcomment %}
                 </li>
             {% endfor %}
         </ul>
