@@ -1,26 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
 from fuzzywuzzy import fuzz
-import os
-from datetime import datetime, timedelta
-
-LAST_SCRAPE_FILE = "last_scrape.txt"
-
-def should_scrape():
-    if not os.path.exists(LAST_SCRAPE_FILE):
-        return True
-    with open(LAST_SCRAPE_FILE, "r") as file:
-        last_scrape = datetime.fromisoformat(file.read().strip())
-    return datetime.now() - last_scrape > timedelta(hours=12)
-
-def update_last_scrape_time():
-    with open(LAST_SCRAPE_FILE, "w") as file:
-        file.write(datetime.now().isoformat())
 
 def scrape_articles():
-    if not should_scrape():
-        return []
-
     url = 'https://lithosgraphein.com/'
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -52,5 +34,5 @@ def scrape_articles():
                     new_article = {"title": title, "url": url, "summary": summary}
                     if not is_duplicate(new_article, articles):
                         articles.append(new_article)
-    update_last_scrape_time()
+
     return articles
