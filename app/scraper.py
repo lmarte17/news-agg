@@ -7,7 +7,6 @@ def scrape_articles():
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
     
-    # Find all the table elements with class "news"
     news_tables = soup.find_all('table', class_='news')
 
     articles = []
@@ -24,7 +23,7 @@ def scrape_articles():
     for table in news_tables:
         td_news = table.find_all('td', class_='news')
         for td in td_news:
-            divs = td.find_all('div', class_=lambda x: x not in ['clear', 'content'])  # Exclude divs with class 'clear' or 'content'
+            divs = td.find_all('div', class_=lambda x: x not in ['clear', 'content']) 
             for div in divs:
                 links = div.find_all('a', href=True)
                 for link in links:
