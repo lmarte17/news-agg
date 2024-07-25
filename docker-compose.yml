@@ -16,6 +16,20 @@ services:
       - .:/news-agg
       - ./news_aggregator.db:/news-agg/news_aggregator.db
 
+  worker:
+    build: .
+    command: ["python", "worker.py"]
+    environment:
+      - DATABASE_URL=sqlite:///./news_aggregator.db
+      - NEWS_SOURCE_URL=https://lithosgraphein.com/
+      - LOG_FILE=news_aggregator.log
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    volumes:
+      - .:/news-agg
+      - ./news_aggregator.db:/news-agg/news_aggregator.db
+
   rabbitmq:
     image: rabbitmq:3-management
     ports:
