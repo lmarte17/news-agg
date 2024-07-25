@@ -13,6 +13,7 @@ def get_connection():
     except pika.exceptions.AMQPConnectionError as e:
         print(f"Failed to connect to RabbitMQ: {e}")
         return None, None
+    
 
 def callback(ch, method, body):
     message = json.loads(body)
