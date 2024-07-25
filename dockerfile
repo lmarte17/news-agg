@@ -17,7 +17,6 @@ EXPOSE 8000
 ENV DATABASE_URL "sqlite:///./news_aggregator.db"
 ENV NEWS_SOURCE_URL "https://lithosgraphein.com/"
 ENV LOG_FILE "news_aggregator.log"
-ENV HEROKU_API_KEY "HRKU-10def73c-0725-4800-a3bd-84f87b41cfa8"
 
 # Copy the SQLite database file
 COPY news_aggregator.db /news-agg/news_aggregator.db
