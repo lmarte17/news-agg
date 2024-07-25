@@ -1,8 +1,11 @@
 import pika
 import json
+import os
 
 def get_connection():
-    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+    url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost//')
+    params = pika.URLParameters(url)
+    connection = pika.BlockingConnection(params)
     channel = connection.channel()
     return connection, channel
 
