@@ -1,7 +1,7 @@
 import pika
 import json
 import os
-from ..infrastructure.models.article import Article
+from ..infrastructure.models.article import ArticleModel as Article
 
 def get_connection():
     url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost//')
