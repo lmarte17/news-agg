@@ -7,6 +7,7 @@ from ...domain.article.entities import Article
 from ...infrastructure.repositories.sqlalchemy_article_repository import SQLAlchemyArticleRepository
 from ....config import settings
 from ...application.nlp.sentiment_analysis import analyze_sentiment
+from ...rabbitmq.publisher import publish_message
 
 class WebScraper:
     def __init__(self, article_repository: SQLAlchemyArticleRepository):
@@ -58,6 +59,7 @@ class WebScraper:
                                     sentiment=sentiment
                                     )
                                 self.article_repository.add(article)
+                                publish_message('article_queue', article)
                                 new_articles_count += 1
 
         return new_articles_count

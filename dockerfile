@@ -17,6 +17,7 @@ EXPOSE 8000
 ENV DATABASE_URL "sqlite:///./news_aggregator.db"
 ENV NEWS_SOURCE_URL "https://lithosgraphein.com/"
 ENV LOG_FILE "news_aggregator.log"
+ENV RABBITMQ_HOST "rabbitmq"
 
 # Copy the SQLite database file
 COPY news_aggregator.db /news-agg/news_aggregator.db
