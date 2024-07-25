@@ -13,3 +13,15 @@ class ArticleModel(Base):
     published_date = Column(DateTime(timezone=True))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     sentiment = Column(String, nullable=True)
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "url": self.url,
+            "summary": self.summary,
+            "source": self.source,
+            "published_date": self.published_date.isoformat() if self.published_date else None,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "sentiment": self.sentiment,
+        }
