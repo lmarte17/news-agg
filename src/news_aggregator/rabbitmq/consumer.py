@@ -1,6 +1,7 @@
 import pika
 import json
 import os
+from ..infrastructure.logging import logger
 
 def get_connection():
     url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost//')
@@ -13,10 +14,9 @@ def get_connection():
         print(f"Failed to connect to RabbitMQ: {e}")
         return None, None
 
-def callback(ch, method, properties, body):
+def callback(ch, method, body):
     message = json.loads(body)
-    print(f"Received message: {message}")
-    # Process the message (e.g., perform NLP tasks, store in database)
+    logger.info(f"Received message: {message}")
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
 def consume_messages(queue):
