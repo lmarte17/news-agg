@@ -1,3 +1,4 @@
+from sqlalchemy import inspect
 from .database import Base, engine, SessionLocal
 from .models.article import ArticleModel
 from ...config import settings
@@ -8,9 +9,12 @@ from ..infrastructure.repositories.sqlalchemy_article_repository import SQLAlche
 def init_db():
     logger.info("Initializing database...")
     try:
-        # Create all tables
-        Base.metadata.create_all(bind=engine)
-        logger.info("Database tables created successfully.")
+        inspector = inspect(engine)
+        if not inspector.has_table('articles'):
+            Base.metadata.create_all(bind=engine)
+            
+        else:
+            logger.info("Table 'articles' already exists. Skipping creation.")
         
         db = SessionLocal()
         try:
