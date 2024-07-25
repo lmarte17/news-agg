@@ -23,4 +23,4 @@ ENV HEROKU_API_KEY "HRKU-10def73c-0725-4800-a3bd-84f87b41cfa8"
 COPY news_aggregator.db /news-agg/news_aggregator.db
 
 # Run app.py when the container launches
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "src.news_aggregator.interfaces.api.main:app", "--host", "0.0.0.0", "--port", "80"]
