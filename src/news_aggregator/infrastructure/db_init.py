@@ -10,12 +10,11 @@ def init_db():
     logger.info("Initializing database...")
     try:
         inspector = inspect(engine)
+        db = SessionLocal()
         if not inspector.has_table('articles'):
             Base.metadata.create_all(bind=engine)
-            
         else:
             logger.info("Table 'articles' already exists. Skipping creation.")
-            db = SessionLocal()
             logger.info("Articles table is empty. Running initial scrape...")
             repository = SQLAlchemyArticleRepository(db)
             scraper = WebScraper(repository)
