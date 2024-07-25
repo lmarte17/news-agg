@@ -15,20 +15,24 @@ def init_db():
             
         else:
             logger.info("Table 'articles' already exists. Skipping creation.")
-        
-        db = SessionLocal()
-        try:
-            if db.query(ArticleModel).count() == 0:
-                logger.info("Articles table is empty. Running initial scrape...")
-                repository = SQLAlchemyArticleRepository(db)
-                scraper = WebScraper(repository)
-                new_articles_count = scraper.scrape_articles()
-                logger.info(f"Initial scrape completed. {new_articles_count} articles added.")
-        finally:
-            db.close()
+            db = SessionLocal()
+            logger.info("Articles table is empty. Running initial scrape...")
+            repository = SQLAlchemyArticleRepository(db)
+            scraper = WebScraper(repository)
+            new_articles_count = scraper.scrape_articles()
+            logger.info(f"Initial scrape completed. {new_articles_count} articles added.")    
     except Exception as e:
         logger.error(f"An error occurred while initializing the database: {str(e)}")
-        raise
+        raise e
+        # try:
+        #     if db.query(ArticleModel).count() == 0:
+        #         logger.info("Articles table is empty. Running initial scrape...")
+        #         repository = SQLAlchemyArticleRepository(db)
+        #         scraper = WebScraper(repository)
+        #         new_articles_count = scraper.scrape_articles()
+        #         logger.info(f"Initial scrape completed. {new_articles_count} articles added.")
+    finally:
+        db.close()
 
 if __name__ == "__main__":
     init_db()
