@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     NEWS_SOURCE_URL: str = "https://lithosgraphein.com/"
     LOG_FILE: str = "logs/news_aggregator.log"
     HEROKU_API_KEY: str = os.getenv("HEROKU_API_KEY")
+    CLOUDAMQP_URL: str = os.getenv("CLOUDAMQP_URL")
 
     class Config:
         env_file = ".env"
