@@ -59,7 +59,8 @@ class WebScraper:
                                     sentiment=sentiment
                                     )
                                 self.article_repository.add(article)
-                                publish_message('article_queue', article)
+                                article_dict = article.to_dict()
+                                publish_message('article_queue', article_dict)
                                 new_articles_count += 1
 
         return new_articles_count
