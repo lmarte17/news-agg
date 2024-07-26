@@ -48,3 +48,4 @@ class SQLAlchemyArticleRepository(ArticleRepository):
             article_data = {key: value for key, value in db_article.__dict__.items() if key != '_sa_instance_state'}
             articles.append(Article(**article_data))
         return articles
+    

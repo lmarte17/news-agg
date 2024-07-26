@@ -5,6 +5,7 @@ from fuzzywuzzy import fuzz
 from ...domain.article.entities import Article
 # from ...domain.article.repositories import ArticleRepository
 from ...infrastructure.repositories.sqlalchemy_article_repository import SQLAlchemyArticleRepository
+from ...infrastructure.database import SessionLocal
 from ....config import settings
 from ...application.nlp.sentiment_analysis import analyze_sentiment
 from ...rabbitmq.publisher import publish_message

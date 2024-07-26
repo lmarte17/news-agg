@@ -23,13 +23,6 @@ def init_db():
     except Exception as e:
         logger.error(f"An error occurred while initializing the database: {str(e)}")
         raise e
-        # try:
-        #     if db.query(ArticleModel).count() == 0:
-        #         logger.info("Articles table is empty. Running initial scrape...")
-        #         repository = SQLAlchemyArticleRepository(db)
-        #         scraper = WebScraper(repository)
-        #         new_articles_count = scraper.scrape_articles()
-        #         logger.info(f"Initial scrape completed. {new_articles_count} articles added.")
     finally:
         db.close()
 
