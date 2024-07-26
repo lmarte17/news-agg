@@ -9,6 +9,7 @@ def get_connection():
     try:
         connection = pika.BlockingConnection(params)
         channel = connection.channel()
+        print("Successfully connected to RabbitMQ")
         return connection, channel
     except pika.exceptions.AMQPConnectionError as e:
         print(f"Failed to connect to RabbitMQ: {e}")
@@ -27,6 +28,7 @@ def publish_message(queue, message):
             properties=pika.BasicProperties(
                 delivery_mode=2,
             ))
+        print(f"Published message to {queue}")
         connection.close()
     else:
         print("Failed to establish a connection with RabbitMQ.")
