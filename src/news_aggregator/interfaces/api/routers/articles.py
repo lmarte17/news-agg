@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, BackgroundTasks, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional
-# from ....application.article.queries import GetArticlesQuery
 from ....infrastructure.scraping.web_scraper import WebScraper
 from ....infrastructure.repositories.sqlalchemy_article_repository import SQLAlchemyArticleRepository
 from ....infrastructure.database import get_db
@@ -28,7 +27,6 @@ async def get_articles(
         articles = repository.search(search_term=search)
     else:
         articles = repository.get_latest(limit)
-    # # articles = repository.search(search_term=search) if search else repository.get_latest(limit)
     return  {'articles':  articles}
     
 

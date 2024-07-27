@@ -49,7 +49,8 @@ def test_get_articles():
             summary=f"This is test article {i}",
             source="Test Source",
             published_date=datetime.now(),
-            created_at=datetime.now()
+            created_at=datetime.now(),
+            sentiment="Neutral"
         )
         repository.add(article)
     db.close()
@@ -72,7 +73,8 @@ def test_search_articles():
             summary=f"This is test article {i}",
             source="Test Source",
             published_date=datetime.now(),
-            created_at=datetime.now()
+            created_at=datetime.now(),
+            sentiment="Neutral"
         )
         repository.add(article)
     db.close()

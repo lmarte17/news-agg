@@ -21,3 +21,10 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+
+  tests:
+    build: .
+    depends_on:
+      - web
+    entrypoint: >
+      sh -c "PYTHONPATH=$(pwd) pytest tests/"
