@@ -14,7 +14,7 @@ services:
       - rabbitmq
     volumes:
       - .:/news-agg
-      # - ./news_aggregator.db:/news-agg/news_aggregator.db
+      - ./news_aggregator.db:/news-agg/news_aggregator.db
 
   rabbitmq:
     image: rabbitmq:3-management
