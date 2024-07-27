@@ -1,4 +1,4 @@
-name: news
+name: CI
 
 on:
   push:
@@ -9,8 +9,15 @@ on:
       - main
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
+
+    services:
+      rabbitmq:
+        image: rabbitmq:3-management
+        ports:
+          - 5672:5672
+          - 15672:15672
 
     steps:
       - name: Checkout code
@@ -19,52 +26,21 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.12
+          python-version: '3.12'
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          python -m venv venv
+          . venv/bin/activate
           pip install -r requirements.txt
 
-      - name: Run tests
-        env:
-          DATABASE_URL: "sqlite:///./news_aggregator.db"
-        run: >
-          sh -c "PYTHONPATH=$(pwd) pytest tests/"
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Log in to Heroku Container Registry
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      - name: Build and run Docker Compose
         run: |
-          echo "$HEROKU_API_KEY" | docker login --username=_ --password-stdin registry.heroku.com
+          docker-compose -f docker-compose.yml up --build -d
 
-      - name: Build Docker image
-        run: docker build -t registry.heroku.com/serene-stream-48049/web .
-
-      - name: Push Docker image to Heroku Container Registry
-        run: docker push registry.heroku.com/serene-stream-48049/web
-
-      - name: Release the app
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      - name: Run tests in Docker Compose
         run: |
-          curl -n -X PATCH https://serene-stream-48049-c4c4b14d32ba.herokuapp.com/formation \
-          -d '{
-          "updates": [
-            {
-              "type": "web",
-              "docker_image": "'$(docker inspect registry.heroku.com/serene-stream-48049/web:latest --format={{.Id}})'"
-            }
-          ]
-          }' \
-          -H "Content-Type: application/json" \
-          -H "Accept: application/vnd.heroku+json; version=3.docker-releases" \
-          -H "Authorization: Bearer $HEROKU_API_KEY"
+          docker-compose exec web pytest tests/
+
+      - name: Stop Docker Compose
+        run: docker-compose down
