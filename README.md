@@ -2,21 +2,6 @@
 
 A simple web application to scrape and display news articles.
 
-## How to run locally
-1. docker-compose up --build
-2. Open browser to http://localhost:8000/
-
-## Deploy to Heroku
-
-1. Create a Heroku app:
-heroku create
-
-2. Push to Heroku:
-git push heroku main
-
-3. Open the app in the browser:
-heroku open
-
 ### 1. High-Level Description of Application Developed for Project
 #### Project Overview
 The project is a News Aggregator application that collects and displays news articles from various sources. The application is designed to offer a user-friendly interface for viewing the latest news and provides features for searching and filtering articles based on keywords.
