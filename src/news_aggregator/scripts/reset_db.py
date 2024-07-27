@@ -1,4 +1,3 @@
-import os
 from ..infrastructure.db_init import init_db
 from ..infrastructure.database import engine, Base
 from ..infrastructure.logging import logger

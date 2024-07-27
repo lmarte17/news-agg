@@ -8,7 +8,7 @@ from src.news_aggregator.infrastructure.repositories.sqlalchemy_article_reposito
 from src.news_aggregator.domain.article.entities import Article
 from datetime import datetime
 
-# Use an in-memory SQLite database for testing
+# Use a SQLite database for testing
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -57,9 +57,6 @@ def test_get_articles():
 
     response = client.get("articles/api/articles")
     assert response.status_code == 200
-    # articles = response.json()
-    # assert len(articles) == 5
-    # assert articles[0]["title"] == "Test Article 0"
 
 def test_search_articles():
     # Add some test articles to the database
@@ -81,6 +78,3 @@ def test_search_articles():
 
     response = client.get("articles/api/articles?search=Article 3")
     assert response.status_code == 200
-    # articles = response.json()
-    # assert len(articles) == 1
-    # assert articles[0]["title"] == "Test Article 3"

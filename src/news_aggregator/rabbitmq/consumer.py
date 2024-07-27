@@ -15,7 +15,7 @@ def get_connection():
         return None, None
     
 
-def callback(ch, method, body):
+def callback(ch, method, properties, body):
     message = json.loads(body)
     logger.info(f"Received message: {message}")
     ch.basic_ack(delivery_tag=method.delivery_tag)

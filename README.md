@@ -2,13 +2,9 @@
 
 A simple web application to scrape and display news articles.
 
-## How to run
-
-1. Install dependencies:
-pip install -r requirements.txt
-
-2. Run the Application
-uvicorn app.main:app --reload
+## How to run locally
+docker-compose up --build
+Open browser to http://localhost:8000/
 
 ## Deploy to Heroku
 

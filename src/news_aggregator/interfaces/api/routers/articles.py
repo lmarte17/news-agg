@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, BackgroundTasks, Query
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import Optional
 from ....infrastructure.scraping.web_scraper import WebScraper
 from ....infrastructure.repositories.sqlalchemy_article_repository import SQLAlchemyArticleRepository
 from ....infrastructure.database import get_db
-from .....schemas.article import ArticleSchema as Article
 from .....schemas.article import ArticlesResponse
 from ....infrastructure.logging import logger
 
@@ -35,9 +34,7 @@ async def trigger_scrape(background_tasks: BackgroundTasks, db: Session = Depend
     print("scraping files")
     def scrape():
         repository = SQLAlchemyArticleRepository(db)
-        print("Scraping articles...")
         scraper = WebScraper(repository)
-        print("Scraped articles")
         new_articles_count = scraper.scrape_articles()
         logger.info(f"Scraped {new_articles_count} new articles")
 

@@ -1,7 +1,5 @@
 from sqlalchemy import inspect
 from .database import Base, engine, SessionLocal
-from .models.article import ArticleModel
-from ...config import settings
 from .logging import logger
 from .scraping.web_scraper import WebScraper
 from ..infrastructure.repositories.sqlalchemy_article_repository import SQLAlchemyArticleRepository

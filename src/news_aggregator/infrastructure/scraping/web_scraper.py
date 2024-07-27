@@ -3,9 +3,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from fuzzywuzzy import fuzz
 from ...domain.article.entities import Article
-# from ...domain.article.repositories import ArticleRepository
 from ...infrastructure.repositories.sqlalchemy_article_repository import SQLAlchemyArticleRepository
-from ...infrastructure.database import SessionLocal
 from ....config import settings
 from ...application.nlp.sentiment_analysis import analyze_sentiment
 from ...rabbitmq.publisher import publish_message
@@ -21,8 +19,6 @@ class WebScraper:
         new_articles_count = 0
         news_tables = soup.find_all('table', class_='news')
         
-        
-        # Function to check for duplicates using fuzzy comparison
         def is_duplicate(new_article, articles, threshold=90):
             for article in articles:
                 title_similarity = fuzz.ratio(new_article['title'], article['title'])
@@ -41,7 +37,8 @@ class WebScraper:
                     for link in links:
                         title = link.get_text(strip=True)
                         url = link['href']
-                        summary = "Summary placeholder"  # Placeholder for the summary
+                        # Placeholder for the summary. Future iterations will have a better implementation
+                        summary = "Summary placeholder"  
                         sentiment = analyze_sentiment(title)
                         new_article = {"title": title, "url": url, "summary": summary}
                         if not is_duplicate(new_article, articles):
@@ -53,9 +50,9 @@ class WebScraper:
                                     id=None,
                                     title=title,
                                     url=url,
-                                    summary=summary, # You might want to fetch and parse the summary
+                                    summary=summary, 
                                     source=url,
-                                    published_date=datetime.now(),  # You might want to parse the actual publication date
+                                    published_date=datetime.now(), 
                                     created_at=datetime.now(),
                                     sentiment=sentiment
                                     )
